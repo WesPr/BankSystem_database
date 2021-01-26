@@ -8,11 +8,11 @@ public class Bank {
         customers.add(customer);
     }
 
-    Customer getCustomer(int account){
+    public Customer getCustomer(int account){
         return customers.get(account);
     }
 
-    ArrayList<Customer> getCustomers(){
+    public ArrayList<Customer> getCustomers(){
         return customers;
     }
 

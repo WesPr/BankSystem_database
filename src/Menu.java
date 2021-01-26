@@ -87,10 +87,10 @@ public class Menu{
 
     //Method to create cheque or savings account with customer details, this will determine initialDeposit required.
     private void createAccount() {
-        String firstName, lastName, ssn, accountType =" ";
+        String firstName = " ", lastName = " ", ssn = " ", accountType =" ";
         double initialDeposit = 0;
-        boolean valid = false;
 
+        boolean valid = false;
         while(!valid){
             System.out.print("Please enter an account type(Cheque/Savings): ");
             accountType = keyboard.nextLine();
@@ -101,12 +101,55 @@ public class Menu{
                 System.out.println("Invalid, please choose Cheque or Savings.");
             }
         }
-        System.out.print("Please enter your first name: ");
-        firstName = keyboard.nextLine();
-        System.out.print("Please enter your last name: ");
-        lastName = keyboard.nextLine();
-        System.out.print("Please enter your social security number: ");
-        ssn = keyboard.nextLine();
+
+        valid = false;
+        while(!valid) {
+            System.out.print("Please enter your first name: ");
+            firstName = keyboard.nextLine();
+            if(firstName.isEmpty())
+                System.out.println("First name cant be empty");
+            else{
+                valid = true;
+            }
+        }
+
+        valid = false;
+        while(!valid) {
+            System.out.print("Please enter your last name: ");
+            lastName = keyboard.nextLine();
+            if(lastName.isEmpty())
+                System.out.println("Last name cant be empty");
+            else{
+                valid = true;
+            }
+        }
+
+        //Check whether SSN has already been used.
+        valid = false;
+        while(!valid){
+            ArrayList<Customer> customers = bank.getCustomers();
+            boolean ssnValid = false;
+            while(!ssnValid) {
+                System.out.print("Please enter your social security number: ");
+                ssn = keyboard.nextLine();
+                if(ssn.isEmpty())
+                    System.out.println("SSN cant be empty");
+                else{
+                    ssnValid = true;
+                }
+            }
+            if(customers.size() > 0) {
+                for (int i = 0; i < customers.size(); i++) {
+                    if (customers.get(i).getSsn().equals(ssn)) {
+                        System.out.println("Duplicate SSN");
+                    }
+                    else{
+                        valid = true;
+                    }
+                }
+            }else
+                valid = true;
+            }
         valid = false;
         while(!valid){
             System.out.print("Please enter initial deposit: ");
