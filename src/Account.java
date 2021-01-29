@@ -14,23 +14,14 @@ public abstract class Account {
                 "Account Number: " + this.getAccountNumber() + "\n" +
                 "Balance: " + this.getBalance() + "\n";
     }
-    /**
-     * @return the balance
-     */
     public double getBalance() {
         return balance;
     }
 
-    /**
-     * @param balance the balance to set
-     */
     public final void setBalance(double balance) {
         this.balance = balance;
     }
 
-    /**
-     * @return the accountNumber
-     */
     public int getAccountNumber() {
         return accountNumber;
     }

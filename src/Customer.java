@@ -31,23 +31,14 @@ public class Customer{
         return account;
     }
 
-    /**
-     * @return the firstName
-     */
     public String getFirstName() {
         return firstName;
     }
 
-    /**
-     * @return the lastName
-     */
     public String getLastName() {
         return lastName;
     }
 
-    /**
-     * @return the ssn
-     */
     public String getSsn() {
         return ssn;
     }

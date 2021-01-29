@@ -25,13 +25,13 @@ public class Menu{
             performAction(choice);
         }
     }
-    //Method prints generic welcome message upon start of program.
+    //generic welcome message upon start of program.
     private void printHeader() {
         System.out.println("+----------------+");
         System.out.println("|    Welcome     |");
         System.out.println("+----------------+");
     }
-    //Method prints generic selection menu.
+    //generic selection menu.
     private void printMenu() {
         System.out.println("+--------------------------+");
         System.out.println("| Please make a selection: |");
@@ -100,7 +100,6 @@ public class Menu{
         }
 
 
-    //Method to create cheque or savings account with customer details, this will determine initialDeposit required.
     private void createAccount() throws SQLException {
         String firstName = " ", lastName = " ", ssn = " ", accountType =" ";
         double initialDeposit = 0;
@@ -165,7 +164,7 @@ public class Menu{
                 }
             }
         }
-        //Account instance created for either cheque child or savings child using if statement.
+        //eNum cheque or savings option for AccountType.
         Account account;
         AccountType aType;
         if (accountType.equalsIgnoreCase("Cheque")){
@@ -176,7 +175,7 @@ public class Menu{
         }
         bank.openAccount(firstName, lastName, ssn, aType, initialDeposit);
     }
-    //Method to make deposit per customer selected.
+
     private void makeDeposit() throws InvalidAmountException, SQLException {
         int account = selectAccount();
         if (account >= 0) {
@@ -190,7 +189,7 @@ public class Menu{
             bank.deposit(account, amount);
         }
     }
-    //Method to make withdrawal per customer selected.
+
     private void makeWithdrawal() throws InsufficientFundsException, SQLException {
         int account = selectAccount();
         if (account >= 0) {
@@ -231,9 +230,10 @@ public class Menu{
         for(int i = 0; i < customers.size(); i++){
             clientAccNos.add(customers.get(i).numberOfAcc());
         }
+        //-1 as index starts at 0
         return (clientAccNos.get(account-1));
     }
-    //Method assigns selectAccount method to account variable, then calls getCustomer method from Bank class and getAccount from Customer class.
+
     private void listAccountBalances() throws SQLException {
         int account = selectAccount();
         if (account >= 0) {

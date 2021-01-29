@@ -40,7 +40,4 @@ public class Bank {
         double amountToDeposit = amount;
         database.UpdateAccount(accountId, customer.getAccount().getBalance() + amountToDeposit);
     }
-
-
-
 }
