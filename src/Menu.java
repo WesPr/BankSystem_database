@@ -7,6 +7,7 @@ public class Menu{
     Scanner keyboard = new Scanner(System.in);
     Bank bank = new Bank();
     Customer customer;
+    Account accountNum;
     boolean exit;
 
     public static void main(String[] args) throws InsufficientFundsException, SQLException, InvalidAmountException {
@@ -39,7 +40,8 @@ public class Menu{
         System.out.println("| 2: Make a deposit.       |");
         System.out.println("| 3: Make a withdrawal.    |");
         System.out.println("| 4: List account balance. |");
-        System.out.println("| 5: Exit.                 |");
+        System.out.println("| 5: Delete Account.       |");
+        System.out.println("| 6: Exit.                 |");
         System.out.println("+--------------------------+");
 
     }
@@ -55,10 +57,10 @@ public class Menu{
                 catch (NumberFormatException e){
                     System.out.println("Invalid selection. Numbers only");
                 }
-                if (choice < 1 || choice > 5){
+                if (choice < 1 || choice > 6){
                     System.out.println("Invalid selection. Enter a number from 1 - 5 please");
                 }
-        }while (choice < 1 || choice > 5);
+        }while (choice < 1 || choice > 6);
         return choice;
     }
     //Method uses inputted parameter to pass to a switch statement, toggling through menu.
@@ -77,6 +79,9 @@ public class Menu{
                 listAccountBalances();
                 break;
             case 5:
+                deleteAccount();
+                break;
+            case 6:
                 System.out.println("Goodbye.");
                 System.exit(0);
                 break;
@@ -86,6 +91,14 @@ public class Menu{
 
         }
     }
+
+    private void deleteAccount() throws SQLException {
+        int account = selectAccount();
+        if (account >= 0) {
+            bank.closeAccount(account);
+        }
+        }
+
 
     //Method to create cheque or savings account with customer details, this will determine initialDeposit required.
     private void createAccount() throws SQLException {
@@ -207,17 +220,18 @@ public class Menu{
         int account = 0;
         System.out.print("Please enter your selection: ");
         try{
-            //-1 from input due to indexing starting from 0.
             account = Integer.parseInt(keyboard.nextLine());
         }
         catch (NumberFormatException e){
             account = -1;
         }
-        if (account < 0 || account > customers.size()){
-            System.out.println("Invalid account selected");
-            account = -1;
+        //arraylist created to store account numbers to correctly edit the correct account in relation to its position
+        //on the displayed list.
+        ArrayList<Integer> clientAccNos = new ArrayList<>();
+        for(int i = 0; i < customers.size(); i++){
+            clientAccNos.add(customers.get(i).numberOfAcc());
         }
-        return account;
+        return (clientAccNos.get(account-1));
     }
     //Method assigns selectAccount method to account variable, then calls getCustomer method from Bank class and getAccount from Customer class.
     private void listAccountBalances() throws SQLException {

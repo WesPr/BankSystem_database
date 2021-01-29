@@ -110,7 +110,7 @@ public class DbService {
             }
             success = true;
         } catch (SQLException ex) {
-            System.err.println("An error has occured." + ex.getMessage());
+            System.err.println("An error has occurred." + ex.getMessage());
         }
         return success;
     }
@@ -129,7 +129,7 @@ public class DbService {
             }
             success = true;
         } catch (SQLException ex) {
-            System.err.println("An error has occured." + ex.getMessage());
+            System.err.println("An error has occurred." + ex.getMessage());
         }
         return success;
     }

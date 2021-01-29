@@ -23,6 +23,9 @@ public class Customer{
     public String basicInfo(){
         return " Account Number: " + account.getAccountNumber() + " - Name: " + getFirstName() + " " + getLastName();
     }
+    public int numberOfAcc(){
+        return account.getAccountNumber();
+    }
 
     Account getAccount(){
         return account;
