@@ -161,7 +161,7 @@ public class Menu{
         else{
             aType = AccountType.Savings;
         }
-        customer = bank.openAccount(firstName, lastName, ssn, aType, initialDeposit);
+        bank.openAccount(firstName, lastName, ssn, aType, initialDeposit);
     }
     //Method to make deposit per customer selected.
     private void makeDeposit() throws InvalidAmountException, SQLException {
@@ -174,7 +174,7 @@ public class Menu{
             } catch (NumberFormatException e) {
                 amount = 0;
             }
-            bank.deposit(customer.getAccount().getAccountNumber(), amount);
+            bank.deposit(account, amount);
         }
     }
     //Method to make withdrawal per customer selected.
@@ -188,7 +188,7 @@ public class Menu{
             } catch (NumberFormatException e) {
                 amount = 0;
             }
-            bank.withdraw(customer.getAccount().getAccountNumber(), amount);
+            bank.withdraw(account, amount);
         }
     }
 
@@ -208,7 +208,7 @@ public class Menu{
         System.out.print("Please enter your selection: ");
         try{
             //-1 from input due to indexing starting from 0.
-            account = Integer.parseInt(keyboard.nextLine()) - 1;
+            account = Integer.parseInt(keyboard.nextLine());
         }
         catch (NumberFormatException e){
             account = -1;

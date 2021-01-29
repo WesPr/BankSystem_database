@@ -28,7 +28,7 @@ public class Bank {
         if (amount > customer.getAccount().getBalance()) {
             throw new InsufficientFundsException();
         }
-        double newBalance = customer.getAccount().getBalance() - (amount);
+        double newBalance = customer.getAccount().getBalance() - amount;
         database.UpdateAccount(accountId, newBalance);
     }
 
@@ -37,7 +37,7 @@ public class Bank {
         if (amount <= 0) {
             throw new InvalidAmountException();
         }
-        double amountToDeposit = amount + (amount);
+        double amountToDeposit = amount;
         database.UpdateAccount(accountId, customer.getAccount().getBalance() + amountToDeposit);
     }
 
