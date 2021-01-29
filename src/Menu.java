@@ -1,3 +1,4 @@
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -5,16 +6,17 @@ public class Menu{
     //Instance variables.
     Scanner keyboard = new Scanner(System.in);
     Bank bank = new Bank();
+    Customer customer;
     boolean exit;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InsufficientFundsException, SQLException, InvalidAmountException {
         //Main instance.
         Menu menu = new Menu();
         menu.runMenu();
     }
     // Method prints header, while loop runs until exit is True, prints menu,
     // calls getInput method and passes assigned variable to performAction method.
-    public void runMenu(){
+    public void runMenu() throws InvalidAmountException, InsufficientFundsException, SQLException {
         printHeader();
         while (!exit){
             printMenu();
@@ -60,7 +62,7 @@ public class Menu{
         return choice;
     }
     //Method uses inputted parameter to pass to a switch statement, toggling through menu.
-    private void performAction(int choice) {
+    private void performAction(int choice) throws InvalidAmountException, InsufficientFundsException, SQLException {
         switch (choice){
             case 1:
                 createAccount();
@@ -86,7 +88,7 @@ public class Menu{
     }
 
     //Method to create cheque or savings account with customer details, this will determine initialDeposit required.
-    private void createAccount() {
+    private void createAccount() throws SQLException {
         String firstName = " ", lastName = " ", ssn = " ", accountType =" ";
         double initialDeposit = 0;
 
@@ -123,33 +125,9 @@ public class Menu{
                 valid = true;
             }
         }
+        System.out.print("Please enter your social security number: ");
+        ssn = keyboard.nextLine();
 
-        //Check whether SSN has already been used.
-        valid = false;
-        while(!valid){
-            ArrayList<Customer> customers = bank.getCustomers();
-            boolean ssnValid = false;
-            while(!ssnValid) {
-                System.out.print("Please enter your social security number: ");
-                ssn = keyboard.nextLine();
-                if(ssn.isEmpty())
-                    System.out.println("SSN cant be empty");
-                else{
-                    ssnValid = true;
-                }
-            }
-            if(customers.size() > 0) {
-                for (int i = 0; i < customers.size(); i++) {
-                    if (customers.get(i).getSsn().equals(ssn)) {
-                        System.out.println("Duplicate SSN");
-                    }
-                    else{
-                        valid = true;
-                    }
-                }
-            }else
-                valid = true;
-            }
         valid = false;
         while(!valid){
             System.out.print("Please enter initial deposit: ");
@@ -176,19 +154,17 @@ public class Menu{
         }
         //Account instance created for either cheque child or savings child using if statement.
         Account account;
+        AccountType aType;
         if (accountType.equalsIgnoreCase("Cheque")){
-            account = new Cheque(initialDeposit);
+            aType = AccountType.Cheque;
         }
         else{
-            account = new Savings(initialDeposit);
+            aType = AccountType.Savings;
         }
-        //Customer instance created, account passed as parameter.
-        Customer customer = new Customer(firstName, lastName, ssn, account);
-        //Customer added to bank arraylist.
-        bank.addCustomer(customer);
+        customer = bank.openAccount(firstName, lastName, ssn, aType, initialDeposit);
     }
     //Method to make deposit per customer selected.
-    private void makeDeposit(){
+    private void makeDeposit() throws InvalidAmountException, SQLException {
         int account = selectAccount();
         if (account >= 0) {
             System.out.print("How much would you like to deposit?: ");
@@ -198,13 +174,11 @@ public class Menu{
             } catch (NumberFormatException e) {
                 amount = 0;
             }
-            //retrieves customer from arraylist using getCustomer(Bank class), gets their account from Customer class
-            //and deposits using deposit function from Account class.
-            bank.getCustomer(account).getAccount().deposit(amount);
+            bank.deposit(customer.getAccount().getAccountNumber(), amount);
         }
     }
     //Method to make withdrawal per customer selected.
-    private void makeWithdrawal(){
+    private void makeWithdrawal() throws InsufficientFundsException, SQLException {
         int account = selectAccount();
         if (account >= 0) {
             System.out.print("How much would you like to withdraw?: ");
@@ -214,14 +188,12 @@ public class Menu{
             } catch (NumberFormatException e) {
                 amount = 0;
             }
-            //retrieves customer from arraylist using getCustomer(Bank class), gets their account from Customer class
-            //and withdraws using withdraw function from Account class.
-            bank.getCustomer(account).getAccount().withdraw(amount);
+            bank.withdraw(customer.getAccount().getAccountNumber(), amount);
         }
     }
 
     //Method uses an arraylist of customers from called method getCustomers in Bank class. -1 returned for all errors.
-    private int selectAccount(){
+    private int selectAccount() throws SQLException {
         ArrayList<Customer> customers = bank.getCustomers();
         if (customers.size() <= 0){
             System.out.println("No customers");
@@ -248,7 +220,7 @@ public class Menu{
         return account;
     }
     //Method assigns selectAccount method to account variable, then calls getCustomer method from Bank class and getAccount from Customer class.
-    private void listAccountBalances() {
+    private void listAccountBalances() throws SQLException {
         int account = selectAccount();
         if (account >= 0) {
             System.out.println(bank.getCustomer(account).getAccount());

@@ -4,36 +4,48 @@ public class Customer{
     private final String ssn;
     private final Account account;
 
-
-    public Customer(String firstName, String lastName, String ssn, Account account){
+    Customer(String firstName, String lastName, String ssn, Account account) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.ssn = ssn;
         this.account = account;
-
     }
-
-    public String getSsn(){
-        return ssn;
-    }
-
 
     @Override
     public String toString(){
         return "\nCustomer Information\n" +
-                "First name " + firstName +
-                "Last name " + lastName +
-                "SSN: " + ssn +
+                "First Name: " + getFirstName() + "\n" +
+                "Last Name: " + getLastName() +  "\n" +
+                "SSN: " + getSsn() +  "\n" +
                 account;
-
     }
 
     public String basicInfo(){
-        return "Name: " + firstName + " " + lastName + " |" +
-                " SSN: " + ssn;
+        return " Account Number: " + account.getAccountNumber() + " - Name: " + getFirstName() + " " + getLastName();
     }
 
-    public Account getAccount(){
+    Account getAccount(){
         return account;
+    }
+
+    /**
+     * @return the firstName
+     */
+    public String getFirstName() {
+        return firstName;
+    }
+
+    /**
+     * @return the lastName
+     */
+    public String getLastName() {
+        return lastName;
+    }
+
+    /**
+     * @return the ssn
+     */
+    public String getSsn() {
+        return ssn;
     }
 }

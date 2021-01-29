@@ -1,15 +1,13 @@
 public class Cheque extends Account{
     private static String accountType = "Cheque";
 
-    public Cheque(double initialDeposit){
-        super();
+    Cheque(int accountNumber, double initialDeposit){
+        super(accountNumber);
         this.setBalance(initialDeposit);
-        }
+    }
 
     @Override
-    public String toString(){
-        return "\nAccount Type: " + accountType + " Account\n" +
-                "Account Number: " + this.getAccountNumber() + "\n" +
-                "Balance: €" + this.getBalance() + "\n";
+    public AccountType getAccountType() {
+        return AccountType.Cheque;
     }
 }

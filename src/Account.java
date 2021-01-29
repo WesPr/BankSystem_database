@@ -1,44 +1,38 @@
-public class Account {
+public abstract class Account {
     private double balance = 0;
     private int accountNumber;
-    private static int numberOfAccounts = 1003467900;
 
-    public Account(){
-        this.accountNumber = numberOfAccounts++;
+    Account(int accountNumber){
+        this.accountNumber = accountNumber;
     }
 
-    public void setBalance(double balance) {
-        this.balance = balance;
+    public abstract AccountType getAccountType();
+
+    @Override
+    public String toString(){
+        return "Account Type: " + getAccountType().name() + " Account\n" +
+                "Account Number: " + this.getAccountNumber() + "\n" +
+                "Balance: " + this.getBalance() + "\n";
     }
-
-
+    /**
+     * @return the balance
+     */
     public double getBalance() {
         return balance;
     }
 
+    /**
+     * @param balance the balance to set
+     */
+    public final void setBalance(double balance) {
+        this.balance = balance;
+    }
 
+    /**
+     * @return the accountNumber
+     */
     public int getAccountNumber() {
         return accountNumber;
-    }
-
-    public void withdraw(double amount){
-        if(amount > balance){
-            System.out.println("You have insufficient funds.");
-            return;
-        }
-        balance -= amount;
-        System.out.println("You have withdrawn €" + amount);
-        System.out.println("Balance is " + balance);
-    }
-
-    public void deposit(double amount){
-        if(amount <= 0){
-            System.out.println("You cant deposit negative or zero money");
-            return;
-        }
-        balance += amount;
-        System.out.println("You have deposited €" + amount);
-        System.out.println("Balance is " + balance);
     }
 
 }
